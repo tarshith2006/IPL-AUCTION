@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Mega Auction Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="ipl_auction.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="stars-bg"></div>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="tropy-icon"><i class="fa-solid fa-trophy"></i></div>
+                <div class="title-wrapper">
+                    <h1>IPL MEGA AUCTION INDEX</h1>
+                    <span class="sub-title">2026 PLAYER ACQUISITION PORTAL</span>
+                </div>
+            </div>
+            <div class="controls-status">
+                <div class="auction-mode-selector"
+                    style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                    <label for="auction-mode-select">AUCTION MODE:</label>
+                    <select id="auction-mode-select"
+                        style="background: var(--bg-primary); border: 1px solid var(--border-color); color: #fff; padding: 8px 12px; border-radius: 6px; outline: none; font-family: var(--font-body); font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        <option value="IPL" selected>IPL T20 Franchise</option>
+                        <option value="INT">International Clash</option>
+                    </select>
+                </div>
+                <div class="user-team-selector">
+                    <label for="user-team-select">YOUR FRANCHISE:</label>
+                    <select id="user-team-select">
+                        <option value="CSK">Chennai Super Kings (CSK)</option>
+                        <option value="MI" selected>Mumbai Indians (MI)</option>
+                        <option value="RCB">Royal Challengers Bengaluru (RCB)</option>
+                        <option value="KKR">Kolkata Knight Riders (KKR)</option>
+                        <option value="RR">Rajasthan Royals (RR)</option>
+                        <option value="SRH">Sunrisers Hyderabad (SRH)</option>
+                        <option value="DC">Delhi Capitals (DC)</option>
+                        <option value="LSG">Lucknow Super Giants (LSG)</option>
+                        <option value="GT">Gujarat Titans (GT)</option>
+                        <option value="PBKS">Punjab Kings (PBKS)</option>
+                    </select>
+                </div>
+                <div class="timer-duration-control"
+                    style="display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                    <label for="timer-duration-select">TIMER:</label>
+                    <select id="timer-duration-select"
+                        style="background: var(--bg-primary); border: 1px solid var(--border-color); color: #fff; padding: 8px 12px; border-radius: 6px; outline: none; font-family: var(--font-body); font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        <option value="10">10 Secs</option>
+                        <option value="15" selected>15 Secs</option>
+                        <option value="20">20 Secs</option>
+                        <option value="30">30 Secs</option>
+                    </select>
+                </div>
+                <div class="sim-speed-control">
+                    <span>AI SPEED:</span>
+                    <button class="speed-btn active" data-speed="1500">Normal</button>
+                    <button class="speed-btn" data-speed="800">Fast</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT GRID -->
+        <main class="auction-grid">
+
+            <!-- LEFT: LIVE PLAYER CARD & STATS -->
+            <section class="card-column grid-panel">
+                <div class="panel-header">
+                    <h2><span class="pulse-dot"></span> LIVE PLAYER CARD</h2>
+                    <span class="player-index" id="current-player-index">01 / 15</span>
+                </div>
+
+                <div class="player-showcase-wrapper">
+                    <!-- Glass Player Card -->
+                    <div class="player-card active-card" id="player-card">
+                        <div class="card-role" id="player-role-badge">ALL-ROUNDER</div>
+                        <div class="card-flag" id="player-country-flag">🇮🇳 IND</div>
+                        <div class="card-prev-team" id="player-prev-team-badge">PREV: MI</div>
+                        <div class="player-img-area">
+                            <div class="player-avatar-placeholder" id="player-image-display">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                        </div>
+                        <div class="player-details">
+                            <h3 class="player-name" id="player-name-display">Virat Kohli</h3>
+                            <div class="player-stats">
+                                <div class="stat-item">
+                                    <span class="stat-lbl">IPL Matches</span>
+                                    <span class="stat-val" id="stat-matches">234</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-lbl">Runs / Wkts</span>
+                                    <span class="stat-val" id="stat-primary">7.2k Runs</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-lbl">Strike Rate</span>
+                                    <span class="stat-val" id="stat-secondary">130.2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Price Indicators -->
+                <div class="price-indicators">
+                    <div class="price-box base-price">
+                        <span class="indicator-lbl">BASE PRICE</span>
+                        <span class="indicator-val" id="base-price-lbl">₹2.00 Cr</span>
+                    </div>
+                    <div class="price-box current-bid premium-glow">
+                        <span class="indicator-lbl">CURRENT HIGHEST BID</span>
+                        <span class="indicator-val" id="current-bid-lbl">₹0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MIDDLE: BID CONTROL & LIVE TIMER -->
+            <section class="bid-column grid-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-gavel"></i> BIDDING CONSOLE</h2>
+                    <span class="status-badge state-idle" id="auction-state-badge">IDLE</span>
+                </div>
+
+                <!-- Timer / Visualizer -->
+                <div class="timer-visor">
+                    <svg class="ring-svg" viewBox="0 0 100 100">
+                        <circle class="ring-track" cx="50" cy="50" r="45"></circle>
+                        <circle class="ring-fill" id="ring-timer" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="timer-content">
+                        <span class="timer-title">COUNTDOWN</span>
+                        <span class="timer-secs" id="timer-seconds">10</span>
+                    </div>
+                </div>
+
+                <!-- Interactive Bid Action Board -->
+                <div class="bid-board">
+                    <div class="bid-leaderboard-info">
+                        <span class="leader-lbl">LEADING BIDDER</span>
+                        <span class="leader-val" id="leading-bidder-name">NO BIDS YET</span>
+                    </div>
+
+                    <!-- Bid Increments Panel -->
+                    <div class="bid-actions" id="bid-actions-wrapper">
+                        <button class="bid-btn" id="bid-inc-1" data-val="10">+ ₹10 L</button>
+                        <button class="bid-btn" id="bid-inc-2" data-val="25">+ ₹25 L</button>
+                        <button class="bid-btn" id="bid-inc-3" data-val="50">+ ₹50 L</button>
+                        <button class="bid-btn" id="bid-inc-4" data-val="100">+ ₹1.00 Cr</button>
+                    </div>
+
+                    <!-- Primary Admin Controls -->
+                    <div class="admin-controls">
+                        <button class="control-btn primary-btn" id="btn-start"><i class="fa-solid fa-play"></i> START
+                            BID</button>
+                        <button class="control-btn accent-btn" id="btn-simulate"><i class="fa-solid fa-robot"></i> RUN
+                            SIMULATOR</button>
+                        <button class="control-btn danger-btn" id="btn-pass"><i class="fa-solid fa-ban"></i>
+                            PASS</button>
+                        <button class="control-btn success-btn" id="btn-sold" disabled><i
+                                class="fa-solid fa-check-double"></i> HAMMER SOLD</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT: LIVE HISTORY LOG & AUDIO-VISUALS -->
+            <section class="history-column grid-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-receipt"></i> BID REALTIME LOG</h2>
+                    <button class="clear-btn" id="btn-clear-log"><i class="fa-solid fa-trash-can"></i> Clear</button>
+                </div>
+
+                <div class="log-container" id="log-list">
+                    <div class="log-empty-msg">Waiting for the auction to initiate...</div>
+                </div>
+
+                <!-- Small Config panel -->
+                <div class="audio-feedback">
+                    <span>SOUND SYNTHESIS:</span>
+                    <button class="sound-toggle active" id="btn-toggle-sound"><i class="fa-solid fa-volume-high"></i>
+                        ON</button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTTOM PORTION 1: FRANCHISE BUDGET BOARD -->
+        <section class="franchise-purse-panel grid-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-wallet"></i> FRANCHISE purseS & SLOTS (₹100 Cr Purse Base)</h2>
+            </div>
+            <div class="purse-grid" id="purse-grid-container">
+                <!-- Javascript will inject each team here -->
+            </div>
+        </section>
+
+        <!-- BOTTOM PORTION 2: PLAYERS POOL / CATALOG -->
+        <section class="players-pool-panel grid-panel">
+            <div class="panel-header tab-header">
+                <div class="tab-triggers">
+                    <button class="tab-btn active" data-tab="all">All Available (<span id="count-all">0</span>)</button>
+                    <button class="tab-btn" data-tab="batsman">Batsmen (<span id="count-bat">0</span>)</button>
+                    <button class="tab-btn" data-tab="bowler">Bowlers (<span id="count-bowl">0</span>)</button>
+                    <button class="tab-btn" data-tab="wicketkeeper">WK (<span id="count-wk">0</span>)</button>
+                    <button class="tab-btn" data-tab="allrounder">All-Rounders (<span id="count-ar">0</span>)</button>
+                    <button class="tab-btn" data-tab="sold">Sold (<span id="count-sold">0</span>)</button>
+                    <button class="tab-btn" data-tab="unsold">Unsold (<span id="count-unsold">0</span>)</button>
+                </div>
+                <div class="sub-filter">
+                    <input type="text" id="search-players" placeholder="🔍 Search player name...">
+                    <button class="control-btn reset-btn" id="btn-reset-auction"><i class="fa-solid fa-rotate-left"></i>
+                        Rest All</button>
+                </div>
+            </div>
+
+            <div class="pool-catalog-grid" id="catalog-container">
+                <!-- Javascript inject player cards -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Hammer Sold Overlay Effect -->
+    <div id="sold-overlay" class="overlay-full">
+        <div class="overlay-card">
+            <div class="celebration-particles" id="party-canvas-container"></div>
+            <h2 id="sold-announce-title shadow-text">SOLD!</h2>
+            <div class="overlay-avatar-container">
+                <img id="sold-player-avatar" src="" alt="Player Avatar">
+            </div>
+            <h3 id="sold-player-name">Virat Kohli</h3>
+            <p>Acquired by <span id="sold-winning-team" class="winning-team-glow">Mumbai Indians</span></p>
+            <div class="final-price-tag" id="sold-winning-price">₹17.50 Crore</div>
+            <button class="overlay-close-btn" id="btn-close-overlay">Next Player <i
+                    class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Right to Match (RTM) Overlay -->
+    <div id="rtm-overlay" class="overlay-full">
+        <div class="overlay-card rtm-card"
+            style="border: 2px solid var(--accent-cyan); box-shadow: 0 0 30px rgba(0, 242, 254, 0.25);">
+            <h2 id="rtm-title" class="shadow-text"
+                style="color: var(--accent-cyan); font-family: var(--font-display); font-size: 2.2rem; margin-bottom: 10px; text-shadow: 0 0 10px var(--accent-cyan);">
+                RTM OPTION</h2>
+            <div id="rtm-status-message" style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px;">
+                CSK has the opportunity to retain this player.</div>
+            <div class="overlay-avatar-container"
+                style="width: 120px; height: 120px; margin: 0 auto 15px auto; border-radius: 50%; background: rgba(255, 255, 255, 0.05); border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <img id="rtm-player-avatar" src="" alt="Player Avatar"
+                    style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <h3 id="rtm-player-name"
+                style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; margin-bottom: 15px;">
+                Virat Kohli</h3>
+            <div class="rtm-bid-info"
+                style="background: var(--bg-secondary); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 1rem; color: var(--text-primary);">
+                <div>Highest Bid: <span id="rtm-winning-price"
+                        style="color: var(--accent-cyan); font-weight: bold;">₹17.50 Cr</span></div>
+                <div>Winning Team: <span id="rtm-winning-team" style="font-weight: bold;">Mumbai Indians</span></div>
+            </div>
+            <div class="rtm-decision-area" id="rtm-decision-controls">
+                <button class="overlay-close-btn success-btn" id="btn-rtm-match"
+                    style="background: linear-gradient(135deg, var(--accent-green) 0%, #1b5e20 100%); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-family: var(--font-body); font-weight: 700; cursor: pointer; transition: all 0.3s ease;">Match
+                    Bid Built & Retain</button>
+                <button class="overlay-close-btn danger-btn" id="btn-rtm-decline"
+                    style="background: linear-gradient(135deg, var(--accent-red) 0%, #b71c1c 100%); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-family: var(--font-body); font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-left: 10px;">Decline</button>
+            </div>
+            <div id="rtm-ai-status"
+                style="display:none; font-family: var(--font-display); font-size: 1.1rem; color: var(--text-secondary); margin-top: 15px;">
+                <i class="fa-solid fa-spinner fa-spin" style="color: var(--accent-cyan); margin-right: 8px;"></i> <span
+                    id="rtm-ai-text">CSK is deciding on RTM...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti JS for visual flair -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="players_data.js"></script>
+    <script src="ipl_auction.js"></script>
+</body>
+
+</html>
